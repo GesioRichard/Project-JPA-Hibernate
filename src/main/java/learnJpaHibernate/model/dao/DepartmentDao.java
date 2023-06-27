@@ -1,6 +1,5 @@
 package learnJpaHibernate.model.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.EntityManager;
@@ -78,19 +77,15 @@ public class DepartmentDao {
 	public Department findById(Integer id) {
 		
 		try {
-			em.getTransaction().begin();
 			Department d = em.find(Department.class, id);
 			
 			if(d == null) {
 				throw new DataException("This id doesnt exist in database");
 			}
 			
-			em.getTransaction().commit();
-			
 			return d;
 		} catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());
-			em.getTransaction().rollback();
 		}
 		
 		return null;
@@ -100,13 +95,11 @@ public class DepartmentDao {
 		
 		
 		try {
-			em.getTransaction().begin();
 			List<Department> departments = em.createQuery("from Department d", Department.class).getResultList();
-			em.getTransaction().commit();
+
 			return departments;
 		} catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());
-			em.getTransaction().rollback();
 		}
 		
 		return null;
